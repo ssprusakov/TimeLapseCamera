@@ -316,4 +316,66 @@ public class CameraSettings {
 			return 0;
 	}
 
+	public List<String> getFocusModes(SharedPreferences prefs, int camId) {
+		List<String> focusModeList = new ArrayList<String>();
+
+		Set<String> focusModes = getStringSet(prefs, "pref_focus_mode_values_"
+				+ camId, null);
+
+		if (focusModes == null) {
+			Camera.Parameters params = getCameraParameters(camId);
+
+			List<String> suppFocusModes = params.getSupportedFocusModes();
+			if (suppFocusModes == null)
+				return focusModeList;
+
+			suppFocusModes.add("cam_" + camId);
+
+			focusModes = new TreeSet<String>();
+			for (String focusMode: suppFocusModes) {
+				focusModes.add(focusMode);
+			}
+
+			putStringSet(prefs, "pref_focus_mode_values_" + camId, focusModes);
+		}
+
+		for (String focusMode : focusModes) {
+			focusModeList.add(focusMode);
+		}
+
+		Collections.sort(focusModeList);
+
+		return focusModeList;
+	}
+
+	public List<String> getWhitebalanceModes(SharedPreferences prefs, int camId) {
+		List<String> wbModeList = new ArrayList<String>();
+
+		Set<String> wbModes = getStringSet(prefs, "pref_whitebalance_mode_values_"
+				+ camId, null);
+
+		if (wbModes == null) {
+			Camera.Parameters params = getCameraParameters(camId);
+
+			List<String> suppWbModes = params.getSupportedWhiteBalance();
+			if (suppWbModes == null)
+				return wbModeList;
+
+			wbModes = new TreeSet<String>();
+			for (String focusMode: suppWbModes) {
+				wbModes.add(focusMode);
+			}
+
+			putStringSet(prefs, "pref_whitebalance_mode_values_" + camId, wbModes);
+		}
+
+		for (String focusMode : wbModes) {
+			wbModeList.add(focusMode);
+		}
+
+		Collections.sort(wbModeList);
+
+		return wbModeList;
+	}
+
 }

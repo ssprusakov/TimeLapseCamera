@@ -166,6 +166,8 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 			public void run() {
 				setFrameRates(prefs);
 				setFrameSizes(prefs);
+				setFocusModes(prefs);
+				setWhitebalanceModes(prefs);
 			}
 		}).start();
 	}
@@ -198,6 +200,61 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 		int camId = RecSettings.getInteger(prefs, "pref_camera", 0);
 		prefCamera.setSummary(camList[camId]);
 	}
+
+	private void setFocusModes(final SharedPreferences prefs) {
+		int camId = RecSettings.getInteger(prefs, "pref_camera", 0);
+		String defFocusMode = prefs.getString("pref_focus_mode", Camera.Parameters.FOCUS_MODE_AUTO);
+
+		final List<String> focusModeList = cameraSettings.getFocusModes(prefs, camId);
+		int defIndex = focusModeList.indexOf(defFocusMode);
+		if (defIndex == -1) {
+			defIndex = 	focusModeList.size() - 1;
+		}
+
+		final int index = defIndex;
+		Handler handler = new Handler(Looper.getMainLooper());
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				prefFocusMode.setEntries(focusModeList.toArray(new String[focusModeList.size()]));
+				prefFocusMode.setEntryValues(focusModeList.toArray(new String[focusModeList.size()]));
+
+				if (index >= 0 && focusModeList.size() > 0) {
+					prefFocusMode.setValueIndex(index);
+					prefFocusMode.setSummary(focusModeList.get(index));
+				}
+				updatePrefStatus(prefs);
+			}
+		});
+	}
+
+	private void setWhitebalanceModes(final SharedPreferences prefs) {
+		int camId = RecSettings.getInteger(prefs, "pref_camera", 0);
+		String defWbMode = prefs.getString("pref_whitebalance_mode", Camera.Parameters.WHITE_BALANCE_AUTO);
+
+		final List<String> wbModeList = cameraSettings.getWhitebalanceModes(prefs, camId);
+		int defIndex = wbModeList.indexOf(defWbMode);
+		if (defIndex == -1) {
+			defIndex = 	wbModeList.size() - 1;
+		}
+
+		final int index = defIndex;
+		Handler handler = new Handler(Looper.getMainLooper());
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				prefWhitebalanceMode.setEntries(wbModeList.toArray(new String[wbModeList.size()]));
+				prefWhitebalanceMode.setEntryValues(wbModeList.toArray(new String[wbModeList.size()]));
+
+				if (index >= 0 && wbModeList.size() > 0) {
+					prefWhitebalanceMode.setValueIndex(index);
+					prefWhitebalanceMode.setSummary(wbModeList.get(index));
+				}
+				updatePrefStatus(prefs);
+			}
+		});
+	}
+
 
 	private void updatePrefStatus(SharedPreferences prefs) {
 		switch (RecSettings.getRecMode(prefs, "pref_rec_mode", RecMode.VIDEO_TIME_LAPSE)) {
@@ -332,6 +389,8 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 			setFrameSizes(prefs);
 			setExposureCompRange(prefs);
 			setZoomRange(prefs);
+			setFocusModes(prefs);
+			setWhitebalanceModes(prefs);
 			prefs.edit().putInt("pref_exposurecomp",0).apply();
 		} else if (key.equals("pref_mute_shutter")) {
 			boolean mute = prefs.getBoolean(key,false);
