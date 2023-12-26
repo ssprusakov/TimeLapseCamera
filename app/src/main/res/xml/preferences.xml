@@ -38,6 +38,21 @@
             android:title="@string/pref_zoom" />
 
         <ListPreference
+            android:dialogTitle="@string/pref_focus_mode"
+            android:key="pref_focus_mode"
+            android:title="@string/pref_focus_mode" />
+
+        <ListPreference
+            android:dialogTitle="@string/pref_wb_mode"
+            android:key="pref_wb_mode"
+            android:title="@string/pref_wb_mode" />
+
+        <ListPreference
+            android:dialogTitle="@string/pref_frame_size"
+            android:key="pref_frame_size"
+            android:title="@string/pref_frame_size" />
+
+        <ListPreference
             android:dialogTitle="@string/pref_frame_size"
             android:key="pref_frame_size"
             android:title="@string/pref_frame_size" />
