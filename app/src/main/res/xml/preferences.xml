@@ -43,9 +43,9 @@
             android:title="@string/pref_focus_mode" />
 
         <ListPreference
-            android:dialogTitle="@string/pref_wb_mode"
-            android:key="pref_wb_mode"
-            android:title="@string/pref_wb_mode" />
+            android:dialogTitle="@string/pref_whitebalance_mode"
+            android:key="pref_whitebalance_mode"
+            android:title="@string/pref_whitebalance_mode" />
 
         <ListPreference
             android:dialogTitle="@string/pref_frame_size"

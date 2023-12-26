@@ -51,6 +51,8 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 	private ListPreference prefFrameRate;
 	private ListPreference prefCamera;
 	private ListPreference prefRecMode;
+	private ListPreference prefFocusMode;
+	private ListPreference prefWhitebalanceMode;
 	private SeekBarPreference prefInitialDelay;
 	private IntervalPickerPreference prefCaptureRate;
 	private SeekBarPreference prefJpegQuality;
@@ -223,6 +225,22 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 		}
 
 		// disable the empty lists
+		if (prefFocusMode.getEntries() == null
+				|| prefFocusMode.getEntries().length == 0) {
+			prefFocusMode.setSummary(null);
+			prefFocusMode.setEnabled(false);
+		} else {
+			prefFocusMode.setEnabled(true);
+		}
+
+		if (prefWhitebalanceMode.getEntries() == null
+				|| prefWhitebalanceMode.getEntries().length == 0) {
+			prefWhitebalanceMode.setSummary(null);
+			prefWhitebalanceMode.setEnabled(false);
+		} else {
+			prefWhitebalanceMode.setEnabled(true);
+		}
+
 		if (prefFrameRate.getEntries() == null
 				|| prefFrameRate.getEntries().length == 0) {
 			prefFrameRate.setSummary(null);
@@ -337,6 +355,10 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 			prefFrameSize.setSummary(prefFrameSize.getEntry());
 		} else if (key.equals("pref_frame_rate")) {
 			prefFrameRate.setSummary(prefFrameRate.getEntry());
+		} else if (key.equals("pref_focus_mode")) {
+			prefFocusMode.setSummary(prefFocusMode.getEntry());
+		} else if (key.equals("pref_whitebalance_mode")) {
+			prefWhitebalanceMode.setSummary(prefWhitebalanceMode.getEntry());
 		} else if (key.equals("pref_schedule_recording")) {
 			prefScheduleRec.setSummary(prefScheduleRec.formatDateTime());
 			RecSettings settings = new RecSettings();
@@ -386,6 +408,9 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 		prefFrameRate = (ListPreference) screen.findPreference("pref_frame_rate");
 		prefCamera = (ListPreference) screen.findPreference("pref_camera");
 		prefRecMode = (ListPreference) screen.findPreference("pref_rec_mode");
+		prefFocusMode = (ListPreference) screen.findPreference("pref_focus_mode");
+		prefWhitebalanceMode = (ListPreference) screen.findPreference("pref_whitebalance_mode");
+
 		prefCaptureRate = (IntervalPickerPreference) screen.findPreference("pref_capture_rate");
 		prefJpegQuality = (SeekBarPreference) screen.findPreference("pref_jpeg_quality");
 		prefInitialDelay = (SeekBarPreference) screen.findPreference("pref_initial_delay");
