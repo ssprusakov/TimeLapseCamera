@@ -235,7 +235,7 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 		final List<String> wbModeList = cameraSettings.getWhitebalanceModes(prefs, camId);
 		int defIndex = wbModeList.indexOf(defWbMode);
 		if (defIndex == -1) {
-			defIndex = 	wbModeList.size() - 1;
+			defIndex = wbModeList.size() - 1;
 		}
 
 		final int index = defIndex;

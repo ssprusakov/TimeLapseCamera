@@ -169,7 +169,16 @@ public class ImageRecorder extends Recorder implements Runnable,
 			Set<String> suppModes = new HashSet<String>();
 			suppModes.addAll(suppList);
 
-			if (suppModes.contains(focusMode)) {
+			final boolean isAutoMode = Camera.Parameters.FOCUS_MODE_AUTO.equals(focusMode);
+			final boolean isContinuousCapture = mSettings.getCaptureRate() < CONTINUOUS_CAPTURE_THRESHOLD;
+
+			if (isAutoMode && isContinuousCapture
+					&& suppModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+				params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+			} else if (isAutoMode && isContinuousCapture
+					&& suppModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)){
+				params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+			} else if (suppModes.contains(focusMode)) {
 				switch (focusMode) {
 					case Camera.Parameters.FOCUS_MODE_AUTO:
 					case Camera.Parameters.FOCUS_MODE_MACRO:
