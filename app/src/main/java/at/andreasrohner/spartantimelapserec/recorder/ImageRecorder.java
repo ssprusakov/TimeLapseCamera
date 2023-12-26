@@ -151,22 +151,33 @@ public class ImageRecorder extends Recorder implements Runnable,
 		}
 	}
 
-	protected void setWhiteBalance(Camera.Parameters params,
-			Set<String> suppModes) {
-		if (suppModes.contains(Camera.Parameters.WHITE_BALANCE_AUTO)) {
-			params.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+	protected void setWhiteBalance(Camera.Parameters params, String whitebalanceMode) {
+		List<String> suppList = params.getSupportedWhiteBalance();
+		if (suppList != null) {
+			Set<String> suppModes = new HashSet<String>();
+			suppModes.addAll(suppList);
+
+			if (suppModes.contains(whitebalanceMode)) {
+				params.setWhiteBalance(whitebalanceMode);
+			}
 		}
 	}
 
-	protected void setFocusMode(Camera.Parameters params, Set<String> suppModes) {
-		if (mSettings.getCaptureRate() < CONTINUOUS_CAPTURE_THRESHOLD && suppModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
-			params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-		} else if (suppModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)
-				&& mSettings.getCaptureRate() < CONTINUOUS_CAPTURE_THRESHOLD) {
-			params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-		} else if (suppModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
-			params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-			mUseAutoFocus = true;
+	protected void setFocusMode(Camera.Parameters params, String focusMode) {
+		List<String> suppList = params.getSupportedFocusModes();
+		if (suppList != null) {
+			Set<String> suppModes = new HashSet<String>();
+			suppModes.addAll(suppList);
+
+			if (suppModes.contains(focusMode)) {
+				switch (focusMode) {
+					case Camera.Parameters.FOCUS_MODE_AUTO:
+					case Camera.Parameters.FOCUS_MODE_MACRO:
+						mUseAutoFocus = true;
+						break;
+				}
+				params.setFocusMode(focusMode);
+			}
 		}
 	}
 
@@ -177,21 +188,8 @@ public class ImageRecorder extends Recorder implements Runnable,
 		 * params.set("cam_mode", 1); hack is not necessary for pictures
 		 */
 
-		List<String> suppList = params.getSupportedWhiteBalance();
-		if (suppList != null) {
-			Set<String> suppModes = new HashSet<String>();
-			suppModes.addAll(suppList);
-
-			setWhiteBalance(params, suppModes);
-		}
-
-		suppList = params.getSupportedFocusModes();
-		if (suppList != null) {
-			Set<String> suppModes = new HashSet<String>();
-			suppModes.addAll(suppList);
-
-			setFocusMode(params, suppModes);
-		}
+		setWhiteBalance(params, mSettings.getWhitebalanceMode());
+		setFocusMode(params, mSettings.getFocusMode());
 
 		params.setPictureFormat(ImageFormat.JPEG);
 

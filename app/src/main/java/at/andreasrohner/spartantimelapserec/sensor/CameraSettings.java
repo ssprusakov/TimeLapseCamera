@@ -329,8 +329,6 @@ public class CameraSettings {
 			if (suppFocusModes == null)
 				return focusModeList;
 
-			suppFocusModes.add("cam_" + camId);
-
 			focusModes = new TreeSet<String>();
 			for (String focusMode: suppFocusModes) {
 				focusModes.add(focusMode);

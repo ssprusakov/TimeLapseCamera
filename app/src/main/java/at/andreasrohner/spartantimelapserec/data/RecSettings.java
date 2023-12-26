@@ -23,6 +23,7 @@ import static android.os.Environment.DIRECTORY_PICTURES;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.os.Environment;
 import at.andreasrohner.spartantimelapserec.preference.DateTimePreference;
@@ -51,6 +52,8 @@ public class RecSettings {
 	private int cameraTriggerDelay;
 	private boolean cameraFlash;
 	private int videoEncodingBitRate;
+	private String focusMode;
+	private String whitebalanceMode;
 
 	public static int getInteger(SharedPreferences prefs, String key, int def) {
 		try {
@@ -188,6 +191,8 @@ public class RecSettings {
 			schedRecEnabled = false;
 		}
 
+		focusMode = prefs.getString("pref_focus_mode", Camera.Parameters.FOCUS_MODE_AUTO);
+		whitebalanceMode = prefs.getString("pref_whitebalance_mode", Camera.Parameters.WHITE_BALANCE_AUTO);
 	}
 
 	public boolean shouldUsePowerSaveMode() {
@@ -343,4 +348,8 @@ public class RecSettings {
 	public boolean getCameraFlash() {return cameraFlash;}
 
 	public int getVideoEncodingBitRate() {return  videoEncodingBitRate;}
+
+	public String getFocusMode() { return focusMode; }
+
+	public String getWhitebalanceMode() { return whitebalanceMode; }
 }

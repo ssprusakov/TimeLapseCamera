@@ -82,18 +82,31 @@ public class PreviewActivity extends Activity implements ErrorCallback,
 		mCamera = null;
 	}
 
-	private void setWhiteBalance(Camera.Parameters params, Set<String> suppModes) {
-		if (suppModes.contains(Camera.Parameters.WHITE_BALANCE_AUTO)) {
-			params.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+	private void setWhiteBalance(Camera.Parameters params, String whitebalanceMode) {
+		List<String> suppList = params.getSupportedWhiteBalance();
+		if (suppList != null) {
+			Set<String> suppModes = new HashSet<String>();
+			suppModes.addAll(suppList);
+
+			if (suppModes.contains(whitebalanceMode)) {
+				params.setWhiteBalance(whitebalanceMode);
+			}
 		}
 	}
 
-	private void setFocusMode(Camera.Parameters params, Set<String> suppModes) {
-		if (suppModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
-			params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-		} else if (suppModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
-			params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-			mUseAutoFocus = true;
+	private void setFocusMode(Camera.Parameters params, String focusMode) {
+		List<String> suppList = params.getSupportedFocusModes();
+		if (suppList != null) {
+			Set<String> suppModes = new HashSet<String>();
+			suppModes.addAll(suppList);
+
+			if (suppModes.contains(focusMode) && !Camera.Parameters.FOCUS_MODE_AUTO.equals(focusMode)) {
+				params.setFocusMode(focusMode);
+			} else if (suppModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
+				params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+			} else if (suppModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+				params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+			}
 		}
 	}
 
@@ -132,21 +145,8 @@ public class PreviewActivity extends Activity implements ErrorCallback,
 	private void setCameraParams() throws IOException {
 		Camera.Parameters params = mCamera.getParameters();
 
-		List<String> suppList = params.getSupportedWhiteBalance();
-		if (suppList != null) {
-			Set<String> suppModes = new HashSet<String>();
-			suppModes.addAll(suppList);
-
-			setWhiteBalance(params, suppModes);
-		}
-
-		suppList = params.getSupportedFocusModes();
-		if (suppList != null) {
-			Set<String> suppModes = new HashSet<String>();
-			suppModes.addAll(suppList);
-
-			setFocusMode(params, suppModes);
-		}
+		setWhiteBalance(params, mSettings.getWhitebalanceMode());
+		setFocusMode(params, mSettings.getFocusMode());
 		params.setExposureCompensation(mSettings.getExposureCompensation());
 		params.setZoom(mSettings.getZoom());
 

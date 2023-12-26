@@ -88,6 +88,34 @@ public class VideoRecorder extends Recorder implements OnInfoListener,
 		super.stop();
 	}
 
+	protected void setWhiteBalance(Camera.Parameters params, String whitebalanceMode) {
+		List<String> suppList = params.getSupportedWhiteBalance();
+		if (suppList != null) {
+			Set<String> suppModes = new HashSet<String>();
+			suppModes.addAll(suppList);
+
+			if (suppModes.contains(whitebalanceMode)) {
+				params.setWhiteBalance(whitebalanceMode);
+			}
+		}
+	}
+
+	protected void setFocusMode(Camera.Parameters params, String focusMode) {
+		List<String> suppList = params.getSupportedFocusModes();
+		if (suppList != null) {
+			Set<String> suppModes = new HashSet<String>();
+			suppModes.addAll(suppList);
+
+			if (suppModes.contains(focusMode) && !Camera.Parameters.FOCUS_MODE_AUTO.equals(focusMode)) {
+				params.setFocusMode(focusMode);
+			} else if (suppModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
+				params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+			} else if (suppModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+				params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+			}
+		}
+	}
+
 	protected void setCameraParams() throws IOException {
 		Camera.Parameters params = mCamera.getParameters();
 		double ratio = (double) mSettings.getFrameWidth()
@@ -99,25 +127,9 @@ public class VideoRecorder extends Recorder implements OnInfoListener,
 		if (Math.abs(ratio - (16D / 9D)) < 0.01)
 			params.set("cam_mode", 1);
 
-		List<String> suppList = params.getSupportedWhiteBalance();
-		if (suppList != null) {
-			Set<String> suppModes = new HashSet<String>();
-			suppModes.addAll(suppList);
+		setWhiteBalance(params, mSettings.getWhitebalanceMode());
+		setFocusMode(params, mSettings.getFocusMode());
 
-			if (suppModes.contains(Camera.Parameters.WHITE_BALANCE_AUTO)) {
-				params.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
-			}
-		}
-
-		suppList = params.getSupportedFocusModes();
-		if (suppList != null) {
-			Set<String> suppModes = new HashSet<String>();
-			suppModes.addAll(suppList);
-
-			if (suppModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
-				params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-			}
-		}
 		params.setExposureCompensation(mSettings.getExposureCompensation());
 		params.setZoom(mSettings.getZoom());
 		mCamera.setParameters(params);
