@@ -51,11 +51,6 @@
             android:dialogTitle="@string/pref_frame_size"
             android:key="pref_frame_size"
             android:title="@string/pref_frame_size" />
-
-        <ListPreference
-            android:dialogTitle="@string/pref_frame_size"
-            android:key="pref_frame_size"
-            android:title="@string/pref_frame_size" />
         <ListPreference
             android:dialogTitle="@string/pref_frame_rate"
             android:key="pref_frame_rate"
