@@ -88,14 +88,14 @@ public class VideoRecorder extends Recorder implements OnInfoListener,
 		super.stop();
 	}
 
-	protected void setWhiteBalance(Camera.Parameters params, String whitebalanceMode) {
+	protected void setWhiteBalance(Camera.Parameters params, String whiteBalanceMode) {
 		List<String> suppList = params.getSupportedWhiteBalance();
 		if (suppList != null) {
 			Set<String> suppModes = new HashSet<String>();
 			suppModes.addAll(suppList);
 
-			if (suppModes.contains(whitebalanceMode)) {
-				params.setWhiteBalance(whitebalanceMode);
+			if (suppModes.contains(whiteBalanceMode)) {
+				params.setWhiteBalance(whiteBalanceMode);
 			}
 		}
 	}
@@ -127,7 +127,7 @@ public class VideoRecorder extends Recorder implements OnInfoListener,
 		if (Math.abs(ratio - (16D / 9D)) < 0.01)
 			params.set("cam_mode", 1);
 
-		setWhiteBalance(params, mSettings.getWhitebalanceMode());
+		setWhiteBalance(params, mSettings.getWhiteBalanceMode());
 		setFocusMode(params, mSettings.getFocusMode());
 
 		params.setExposureCompensation(mSettings.getExposureCompensation());

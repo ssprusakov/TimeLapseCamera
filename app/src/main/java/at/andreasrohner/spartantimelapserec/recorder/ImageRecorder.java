@@ -151,14 +151,14 @@ public class ImageRecorder extends Recorder implements Runnable,
 		}
 	}
 
-	protected void setWhiteBalance(Camera.Parameters params, String whitebalanceMode) {
+	protected void setWhiteBalance(Camera.Parameters params, String whiteBalanceMode) {
 		List<String> suppList = params.getSupportedWhiteBalance();
 		if (suppList != null) {
 			Set<String> suppModes = new HashSet<String>();
 			suppModes.addAll(suppList);
 
-			if (suppModes.contains(whitebalanceMode)) {
-				params.setWhiteBalance(whitebalanceMode);
+			if (suppModes.contains(whiteBalanceMode)) {
+				params.setWhiteBalance(whiteBalanceMode);
 			}
 		}
 	}
@@ -188,7 +188,7 @@ public class ImageRecorder extends Recorder implements Runnable,
 		 * params.set("cam_mode", 1); hack is not necessary for pictures
 		 */
 
-		setWhiteBalance(params, mSettings.getWhitebalanceMode());
+		setWhiteBalance(params, mSettings.getWhiteBalanceMode());
 		setFocusMode(params, mSettings.getFocusMode());
 
 		params.setPictureFormat(ImageFormat.JPEG);

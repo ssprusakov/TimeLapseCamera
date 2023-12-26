@@ -52,7 +52,7 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 	private ListPreference prefCamera;
 	private ListPreference prefRecMode;
 	private ListPreference prefFocusMode;
-	private ListPreference prefWhitebalanceMode;
+	private ListPreference prefWhiteBalanceMode;
 	private SeekBarPreference prefInitialDelay;
 	private IntervalPickerPreference prefCaptureRate;
 	private SeekBarPreference prefJpegQuality;
@@ -243,12 +243,12 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 		handler.post(new Runnable() {
 			@Override
 			public void run() {
-				prefWhitebalanceMode.setEntries(wbModeList.toArray(new String[wbModeList.size()]));
-				prefWhitebalanceMode.setEntryValues(wbModeList.toArray(new String[wbModeList.size()]));
+				prefWhiteBalanceMode.setEntries(wbModeList.toArray(new String[wbModeList.size()]));
+				prefWhiteBalanceMode.setEntryValues(wbModeList.toArray(new String[wbModeList.size()]));
 
 				if (index >= 0 && wbModeList.size() > 0) {
-					prefWhitebalanceMode.setValueIndex(index);
-					prefWhitebalanceMode.setSummary(wbModeList.get(index));
+					prefWhiteBalanceMode.setValueIndex(index);
+					prefWhiteBalanceMode.setSummary(wbModeList.get(index));
 				}
 				updatePrefStatus(prefs);
 			}
@@ -290,12 +290,12 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 			prefFocusMode.setEnabled(true);
 		}
 
-		if (prefWhitebalanceMode.getEntries() == null
-				|| prefWhitebalanceMode.getEntries().length == 0) {
-			prefWhitebalanceMode.setSummary(null);
-			prefWhitebalanceMode.setEnabled(false);
+		if (prefWhiteBalanceMode.getEntries() == null
+				|| prefWhiteBalanceMode.getEntries().length == 0) {
+			prefWhiteBalanceMode.setSummary(null);
+			prefWhiteBalanceMode.setEnabled(false);
 		} else {
-			prefWhitebalanceMode.setEnabled(true);
+			prefWhiteBalanceMode.setEnabled(true);
 		}
 
 		if (prefFrameRate.getEntries() == null
@@ -417,7 +417,7 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 		} else if (key.equals("pref_focus_mode")) {
 			prefFocusMode.setSummary(prefFocusMode.getEntry());
 		} else if (key.equals("pref_whitebalance_mode")) {
-			prefWhitebalanceMode.setSummary(prefWhitebalanceMode.getEntry());
+			prefWhiteBalanceMode.setSummary(prefWhiteBalanceMode.getEntry());
 		} else if (key.equals("pref_schedule_recording")) {
 			prefScheduleRec.setSummary(prefScheduleRec.formatDateTime());
 			RecSettings settings = new RecSettings();
@@ -468,7 +468,7 @@ public class SettingsCommon implements OnSharedPreferenceChangeListener,
 		prefCamera = (ListPreference) screen.findPreference("pref_camera");
 		prefRecMode = (ListPreference) screen.findPreference("pref_rec_mode");
 		prefFocusMode = (ListPreference) screen.findPreference("pref_focus_mode");
-		prefWhitebalanceMode = (ListPreference) screen.findPreference("pref_whitebalance_mode");
+		prefWhiteBalanceMode = (ListPreference) screen.findPreference("pref_whitebalance_mode");
 
 		prefCaptureRate = (IntervalPickerPreference) screen.findPreference("pref_capture_rate");
 		prefJpegQuality = (SeekBarPreference) screen.findPreference("pref_jpeg_quality");

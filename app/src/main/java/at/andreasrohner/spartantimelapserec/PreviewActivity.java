@@ -82,14 +82,14 @@ public class PreviewActivity extends Activity implements ErrorCallback,
 		mCamera = null;
 	}
 
-	private void setWhiteBalance(Camera.Parameters params, String whitebalanceMode) {
+	private void setWhiteBalance(Camera.Parameters params, String whiteBalanceMode) {
 		List<String> suppList = params.getSupportedWhiteBalance();
 		if (suppList != null) {
 			Set<String> suppModes = new HashSet<String>();
 			suppModes.addAll(suppList);
 
-			if (suppModes.contains(whitebalanceMode)) {
-				params.setWhiteBalance(whitebalanceMode);
+			if (suppModes.contains(whiteBalanceMode)) {
+				params.setWhiteBalance(whiteBalanceMode);
 			}
 		}
 	}
@@ -145,7 +145,7 @@ public class PreviewActivity extends Activity implements ErrorCallback,
 	private void setCameraParams() throws IOException {
 		Camera.Parameters params = mCamera.getParameters();
 
-		setWhiteBalance(params, mSettings.getWhitebalanceMode());
+		setWhiteBalance(params, mSettings.getWhiteBalanceMode());
 		setFocusMode(params, mSettings.getFocusMode());
 		params.setExposureCompensation(mSettings.getExposureCompensation());
 		params.setZoom(mSettings.getZoom());
